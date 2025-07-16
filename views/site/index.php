@@ -2,11 +2,17 @@
 
 /** @var yii\web\View $this */
 
+use app\models\LoginForm;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+/** @var $model LoginForm */
 
 $this->title = 'My Yii Application';
 ?>
+
+
+
+
 <div class="site-index">
 
     <div class="jumbotron text-center bg-transparent mt-5 mb-5">
@@ -20,8 +26,10 @@ $this->title = 'My Yii Application';
     <div class="body-content">
 
         <div class="login-form">
+
             <h2>Login</h2>
             <?php $form = ActiveForm::begin(); ?>
+            <?php echo Yii::$app->security->generatePasswordHash('admin123'); ?>
 
             <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
 

@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "user".
@@ -17,7 +18,7 @@ use Yii;
  * @property int $created_at
  * @property int $updated_at
  */
-class User extends \yii\db\ActiveRecord
+class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
 
 
@@ -69,7 +70,39 @@ class User extends \yii\db\ActiveRecord
         return self::find()->where(['username' => $username])->one();
     }
 
-    public static function validatePassword($password){
-        return self::find()->where(['password_hash' => password_hash($password, PASSWORD_DEFAULT)])->one();
+    public function validatePassword($password)
+    {
+        return Yii::$app->security->validatePassword($password, $this->password_hash);
     }
+
+    // This finds the user by ID (used for sessions)
+    public static function findIdentity($id)
+    {
+        return self::findOne($id);
+    }
+
+// This is used for cookie-based login (not always needed)
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return null; // Not used here
+    }
+
+// Unique ID for the user (usually the primary key)
+    public function getId()
+    {
+        return $this->id;
+    }
+
+// The auth key used to verify cookie identity
+    public function getAuthKey()
+    {
+        return $this->auth_key;
+    }
+
+// Check if the provided auth key is valid
+    public function validateAuthKey($authKey)
+    {
+        return $this->auth_key === $authKey;
+    }
+
 }
