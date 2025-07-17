@@ -21,7 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Customer', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); 
+    ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -33,9 +34,29 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'note:text',
             'dob',
-            'province_id',
-            'district_id',
-            //'ward_id',
+            // 'province_id',
+            [
+                'attribute' => 'province_id',
+                'value' => function ($model) {
+                    return $model->province ? $model->province->name : null;
+                },
+                'filter' => \yii\helpers\ArrayHelper::map(\app\models\Province::find()->all(), 'id', 'name'),
+            ],
+//            'district_id',
+            [
+                'attribute' => 'district_id',
+                'value' => function ($model) {
+                    return $model->district ? $model->district->name : null;
+                },
+                'filter' => \yii\helpers\ArrayHelper::map(\app\models\District::find()->all(), 'id', 'name'),
+            ],
+            [
+                'attribute' => 'district_id',
+                'value' => function ($model) {
+                    return $model->ward ? $model->ward->name : null;
+                },
+                'filter' => \yii\helpers\ArrayHelper::map(\app\models\Ward::find()->all(), 'id', 'name'),
+            ],
             'address',
             //'created_at',
             //'updated_at',
@@ -45,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Customer $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                 }
+                }
             ],
         ],
     ]); ?>

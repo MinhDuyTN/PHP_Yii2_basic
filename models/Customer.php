@@ -68,5 +68,20 @@ class Customer extends \yii\db\ActiveRecord
             'is_deleted' => 'Is Deleted',
         ];
     }
-
+    public function getProvince()
+    {
+        return $this->hasOne(Province::className(), ['id' => 'province_id']);
+    }
+    public function getDistrict()
+    {
+        return $this->hasOne(District::className(), ['id' => 'district_id']);
+    }
+    public function getWard()
+    {
+        return $this->hasOne(Ward::className(), ['id' => 'ward_id']);
+    }
+    public function getUser()
+    {
+        return $this->hasOne(\app\models\User::class, ['id' => 'created_by']);
+    }
 }
