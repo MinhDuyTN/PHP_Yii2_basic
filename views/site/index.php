@@ -17,10 +17,14 @@ $this->title = 'My Yii Application';
 
     <div class="jumbotron text-center bg-transparent mt-5 mb-5">
         <h1 class="display-4">Welcome to the website!</h1>
+        <?php if (!Yii::$app->user->isGuest): ?>
+            <?php echo "Hello " . Yii::$app->user->identity->username;  ?>
+        <?php endif; ?>
 
+        <?php if (Yii::$app->user->isGuest): ?>
         <p class="lead">Still not registered?</p>
-
         <p><a class="btn btn-lg btn-success" href="<?= \yii\helpers\Url::to(['site/register']) ?>">Register now</a></p>
+        <?php endif; ?>
     </div>
 
     <div class="body-content">

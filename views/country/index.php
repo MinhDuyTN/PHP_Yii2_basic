@@ -37,6 +37,15 @@ $('body').on('click', '.view-country', function(e) {
         .find('#modal-content')
         .load(url); // jQuery will send AJAX GET to that URL
 });
+
+$('body').on('click', '.edit-country', function(e) {
+    e.preventDefault(); // Stop the link from navigating to another page
+    var url = $(this).attr('href'); // Get the URL from the <a> tag
+    // Open the modal and load the content from the server via AJAX
+    $('#country-modal').modal('show')
+    .find('#modal-content')
+    .load(url); // jQuery will send AJAX GET to that URL
+});
 JS;
 
 $this->registerJs($script);
@@ -61,10 +70,20 @@ $this->registerJs($script);
                 'attribute' => 'name',
                 'format' => 'raw',
                 'value' => function($model) {
-                    return \yii\helpers\Html::a($model->name, ['view', 'code' => $model->code],[
+                    $nameLink = \yii\helpers\Html::a($model->name, ['view', 'code' => $model->code],[
                         'class' => 'view-country',
                         'data-pjax' => '0',
                     ]);
+                    //edit icon
+                    $editIcon = \yii\helpers\Html::a(
+                            '<i class="bi bi-pen"></i>',
+                            ['update', 'code' => $model->code],
+                        [
+                                'class' => 'edit-country',
+                            'title' => 'Edit'
+                        ]);
+
+                    return $nameLink . $editIcon;
                 },
             ],
             'population',
@@ -72,7 +91,7 @@ $this->registerJs($script);
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Country $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'code' => $model->code]);
-                 }
+                }
             ],
         ],
     ]); ?>
