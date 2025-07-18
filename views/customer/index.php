@@ -51,14 +51,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => \yii\helpers\ArrayHelper::map(\app\models\District::find()->all(), 'id', 'name'),
             ],
             [
-                'attribute' => 'district_id',
+                'attribute' => 'ward_id',
                 'value' => function ($model) {
                     return $model->ward ? $model->ward->name : null;
                 },
                 'filter' => \yii\helpers\ArrayHelper::map(\app\models\Ward::find()->all(), 'id', 'name'),
             ],
             'address',
-            //'created_at',
+            'created_at',
             //'updated_at',
             'created_by',
             //'is_deleted',

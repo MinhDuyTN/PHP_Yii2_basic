@@ -53,7 +53,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                     )
                     . Html::endForm()
                     . '</li>',
-            ['label' => 'New Customer', 'url' => ['/site/customer']],
+            ['label' => 'New Customer', 'url' => ['/customer']],
 
         ]
     ]);

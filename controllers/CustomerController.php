@@ -4,6 +4,8 @@ namespace app\controllers;
 
 use app\models\Customer;
 use app\models\CustomerSearch;
+use app\models\District;
+use app\models\Ward;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -131,4 +133,39 @@ class CustomerController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+    public function actionGetDistricts(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $province_id = $parents[0];
+                $districts = District::find()->where(['province_id' => $province_id])->asArray()->all();
+                $out = [];
+                foreach ($districts as $d) {
+                    $out[] = ['id' => $d['id'], 'name' => $d['name']];
+                }
+                return ['output' => $out, 'selected' => ''];
+            }
+        }
+        return ['output' => [], 'selected' => ''];
+    }
+
+    public function actionGetWards(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if (count($parents) >= 2) {
+                $district_id = $parents[1];
+                $wards = Ward::find()->where(['district_id' => $district_id])->asArray()->all();
+                $out = [];
+                foreach ($wards as $w) {
+                    $out[] = ['id' => $w['id'], 'name' => $w['name']];
+                }
+                return ['output' => $out, 'selected' => ''];
+            }
+        }
+        return ['output' => [], 'selected' => ''];
+    }
+
 }

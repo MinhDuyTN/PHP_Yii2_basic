@@ -78,7 +78,7 @@ class Customer extends \yii\db\ActiveRecord
     }
     public function getWard()
     {
-        return $this->hasOne(Ward::className(), ['id' => 'ward_id']);
+        return $this->hasOne(\app\models\Ward::class, ['id' => 'ward_id']);
     }
     public function getUser()
     {

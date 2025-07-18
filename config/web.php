@@ -12,6 +12,14 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'assetManager' => [
+            'bundles' => [
+                'kartik\select2\Select2Asset' => [
+                    'bsDependencyEnabled' => false, // Tắt phụ thuộc Bootstrap tự động
+                ],
+            ],
+        ],
+
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'yBCk0vJtXur5mn4IWvjnn9N1x3KEy4rK',
@@ -42,6 +50,7 @@ $config = [
             ],
         ],
         'db' => $db,
+
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -50,6 +59,14 @@ $config = [
             ],
         ],
         */
+    ],
+    'modules' => [
+        // nếu chưa có modules thì thêm mới
+        'select2' => [
+            'class' => '\kartik\select2\Module',
+            // đảm bảo không dùng bootstrap 3
+            'bsVersion' => '5.x', // hoặc '5'
+        ],
     ],
     'params' => $params,
 ];
